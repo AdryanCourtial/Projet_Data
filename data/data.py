@@ -1,23 +1,25 @@
 import matplotlib.pyplot as plt
-import numpy as np
-
 import pandas as pd
 
-plt.rcParams["figure.figsize"] = [7.00, 3.50]
-plt.rcParams["figure.autolayout"] = True
-
-columns = ["Film", "Budget"]
 
 
-# csv_file = 'dc_marvel_movie_performance.csv'
+def film_budget():
+    df = pd.read_csv('dc_marvel_movie_performance.csv')
 
-df = pd.read_csv('dc_marvel_movie_performance.csv', usecols=columns)
+    df['Budget'] = df['Budget'].astype(str)
+
+    fig, ax = plt.subplots()
+
+    ax.plot(range(len(df)), df['Budget'])
+
+    plt.xlabel('Film')
+    plt.ylabel('Budget')
+    plt.title('Budget des films DC et Marvel')
+
+    plt.xticks(range(len(df)), df['Film'], rotation=90)
+
+    plt.show()
 
 
-print("Contents in csv file:", df)
-
-
-
-plt.plot(df.Film, df.Budjet)
-
-plt.show()
+if __name__ == "__main__":
+    film_budget()
