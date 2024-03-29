@@ -1,15 +1,25 @@
 import matplotlib.pyplot as plt
-import numpy as np
-
 import pandas as pd
 
-csv_file = 'dc_marvel_movie_performance.csv'
 
-df = pd.read_csv(csv_file)
 
-x = np.linspace(0, 2 * np.pi, 200)
-y = np.sin(x)
+def film_budget():
+    df = pd.read_csv('dc_marvel_movie_performance.csv')
 
-fig, ax = plt.subplots()
-ax.plot(x, y)
-plt.show()
+    df['Budget'] = df['Budget'].astype(str)
+
+    fig, ax = plt.subplots()
+
+    ax.plot(range(len(df)), df['Budget'])
+
+    plt.xlabel('Film')
+    plt.ylabel('Budget')
+    plt.title('Budget des films DC et Marvel')
+
+    plt.xticks(range(len(df)), df['Film'], rotation=90)
+
+    plt.show()
+
+
+if __name__ == "__main__":
+    film_budget()
