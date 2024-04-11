@@ -1,25 +1,61 @@
+# import matplotlib.pyplot as plt
+# import pandas as pd
+
+
+
+# def film_budget():
+#     df = pd.read_csv('DATA_ESSAiE2.csv', sep=";")
+
+#     df['Budget'] = df['Budget'].astype(str)
+
+#     fig, ax = plt.subplots()
+
+#     ax.plot(range(len(df)), df['Budget'])
+
+#     plt.xlabel('Film')
+#     plt.ylabel('Budget')
+#     plt.title('Budget des films DC et Marvel')
+
+#     plt.xticks(range(len(df)), df['Film'], rotation=90)
+
+#     plt.show()
+
+
+# if __name__ == "__main__":
+#     film_budget()
+
+# print(pd.read_csv('DATA_ESSAiE2.csv'))
+
 import matplotlib.pyplot as plt
-import pandas as pd
+from mpl_toolkits.basemap import Basemap
 
+# Créer une nouvelle figure
+plt.figure(figsize=(10, 5))
 
+# Créer une carte du monde avec Basemap
+m = Basemap(projection='mill',llcrnrlat=-60,urcrnrlat=90,\
+            llcrnrlon=-180,urcrnrlon=180,resolution='c')
 
-def film_budget():
-    df = pd.read_csv('dc_marvel_movie_performance.csv')
+# Dessiner les côtes, les frontières des pays et les méridiens/parallèles
+m.drawcoastlines()
+m.drawcountries()
+m.drawparallels(range(-90,91,30), labels=[1,0,0,0]) # Latitude
+m.drawmeridians(range(-180,181,60), labels=[0,0,0,1]) # Longitude
 
-    df['Budget'] = df['Budget'].astype(str)
+# Placer des marqueurs sur la carte pour répertorier des données
+# Par exemple, placer un marqueur à Paris
+lat, lon = 48.8566, 2.3522
+x, y = m(lon, lat)
+m.plot(x, y, 'ro', markersize=10, label='Paris')
 
-    fig, ax = plt.subplots()
+# Placer un texte à côté du marqueur
+plt.text(x, y, 'Paris', fontsize=12, ha='right')
 
-    ax.plot(range(len(df)), df['Budget'])
+# Ajouter une légende
+plt.legend()
 
-    plt.xlabel('Film')
-    plt.ylabel('Budget')
-    plt.title('Budget des films DC et Marvel')
+# Titre de la carte
+plt.title('Carte du monde avec marqueurs')
 
-    plt.xticks(range(len(df)), df['Film'], rotation=90)
-
-    plt.show()
-
-
-if __name__ == "__main__":
-    film_budget()
+# Afficher la carte
+plt.show()
