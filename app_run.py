@@ -3,6 +3,7 @@ import pandas as pd
 from dash import Dash, html, dcc, callback, Output, Input, State
 from graph.film_graph import update_film_graph
 from graph.comparison_graph import update_main_graph
+from graph.critic_graph import update_critic_graph
 
 df = pd.read_csv('data/DATA_ESSAiE2.csv', delimiter=';')
 
@@ -28,10 +29,12 @@ app.layout = html.Div([
     ], className='container mt-5'),
     html.Div([
         dcc.Graph(id='comparison-graph')
+    ], className='container mt-5'),
+    html.Div([
+        dcc.Graph(id='critic-graph')
     ], className='container mt-5')
 ])
 
-# Callback pour mettre à jour le graphique de film
 @app.callback(
     Output('film-graph-content', 'figure'),
     [Input('update-film-button', 'n_clicks')],
@@ -40,13 +43,20 @@ app.layout = html.Div([
 def update_film(n_clicks, selected_films):
     return update_film_graph(n_clicks, selected_films, df)
 
-# Callback pour mettre à jour le graphique de comparaison
 @app.callback(
     Output('comparison-graph', 'figure'),
     [Input('film-graph-content', 'hoverData')]
 )
 def update_comparison(hover_data):
     return update_main_graph(hover_data, df)
+
+@app.callback(
+    Output('critic-graph', 'figure'),
+    [Input('update-film-button', 'n_clicks')]
+)
+def update_critic_graph_callback(n_clicks):
+    return update_critic_graph(df)
+
 
 
 if __name__ == '__main__':
